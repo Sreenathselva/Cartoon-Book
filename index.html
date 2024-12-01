@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <div id="flipbook">
+      <div class="hard">
+        <h1>Book of<br><a href="http://maps.google.com/?q=Nyhavn%20denmark" target="_blank" title="See Nyhavn on a map">CARTOONS</a></h1>
+        <h2>Using <a href="http://www.turnjs.com/"> <br>TURN.JS</a></h2>
+        <h5>By <a href="">Sreenath Selva</a></h5>
+      </div>
+      <div class="hard">
+        <div class="pno">1</div>
+      </div>
+      <div class="page o1">
+        <div class="pno">2</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Index</th>
+              <th>Content</th>
+              <th>Page No:</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Pink Panther</td>
+              <td>4</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>MR.Bean</td>
+              <td>6</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Tom & Jerry</td>
+              <td>8</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>Video iframe from YouTube</td>
+              <td>10</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="page o1">page1
+        <div class="pno">3</div>
+      </div>
+      <div class="page" data-image="1">
+        <div class="pno">4</div>
+        <div class="audio-container">
+          <h5>AUDIO AUTOPLAY TESTING</h5>
+          <img src="assets/images/pinkpantherblack.gif" alt="">
+          <audio data-audio="1" controls>
+            <source src="assets/audio/pink_panther.mp3" type="audio/mp3">
+            Your browser does not support the audio element.
+          </audio>
+        </div>
+      </div>
+      <div class="page o1">
+        <div class="pno">5</div>Page 2</div>
+      <div class="page" data-image="2">
+        <div class="pno">6</div>
+        <div class="audio-container">
+          <h5>AUDIO AUTOPLAY TESTING</h5>
+          <img src="assets/images/mr-bean-animated-mr-bean.gif" alt="">
+        </div>
+        <audio data-audio="2" controls>
+          <source src="assets/audio/mr_bean.mp3" type="audio/mp3">
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+      <div class="page o1">
+        <div class="pno">7</div>Page 3</div>
+      <div class="page" data-image="3">
+        <div class="pno">8</div>
+        <div class="audio-container">
+          <h5>AUDIO AUTOPLAY TESTING</h5>
+          <img src="assets/images/tom&jerry.gif" alt="">
+          <audio data-audio="3" controls>
+            <source src="assets/audio/tom_jerry.mp3" type="audio/mp3">
+            Your browser does not support the audio element.
+          </audio>
+        </div>
+      </div>
+      <div class="page">
+        <div class="pno">9</div>Note: The video will be stopped when the page is changed</div>
+      <div class="page">
+        <div class="pno">10</div>
+        <h5>YOUTUBE VIDEO TESTING</h5>
+        <iframe width="460" height="270" src="https://www.youtube.com/embed/1vmOa9oRMvA?si=qKw41qHuHex34sZZ" title="YouTube video player" autoplay frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <button id="refresh">Refresh</button>
+      </div>
+      <div class="page o1">
+        <div class="pno">11</div>THE END</div>
+      <div class="hard"></div>
+      <div class="hard"></div>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/9729/turn.min.js"></script>
+<script src="assets/script/script.js"></script>
+  <script>
+$(document).ready(function () {
+
+
+  $('.refresh').click(function () {
+    location.reload(); // Reload the page
+  });
+
+
+  const flipbook = $('#flipbook');
+
+  // Initialize the flipbook
+  flipbook.turn({
+    width: '75vw',
+    height: '90vh',
+    autoCenter: true,
+    gradients: true,
+    pages: 12, // Total pages including hard cover and content pages
+  });
+
+  // Handle audio playback when the page is turned
+  flipbook.on('turned', function (event, page) {
+    console.log(`Active page: ${page}`);
+
+    // Pause all audio elements
+    $('audio').each(function () {
+      this.pause();
+      this.currentTime = 0; // Reset audio to the beginning
+    });
+
+    // Determine which audio to play based on active page
+    let audioToPlay;
+    if (page === 4 || page === 5) {
+      audioToPlay = $('audio[data-audio="1"]')[0];
+    } else if (page === 6 || page === 7) {
+      audioToPlay = $('audio[data-audio="2"]')[0];
+    } else if (page === 8 || page === 9) {
+      audioToPlay = $('audio[data-audio="3"]')[0];
+    }
+
+    // Play the selected audio
+    if (audioToPlay) {
+      audioToPlay.play();
+    }
+  });
+});
+
+
+
+
+
+
+
+
+  </script>
+</body>
+</html>
